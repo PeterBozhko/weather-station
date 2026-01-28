@@ -17,12 +17,11 @@ esp_err_t dht22_read(gpio_num_t pin, float *temperature, float *humidity)
     uint8_t data[5] = {0};
 
     // Start signal
-    gpio_set_direction(pin, GPIO_MODE_OUTPUT);
+    gpio_set_direction(pin, GPIO_MODE_INPUT_OUTPUT_OD);
     gpio_set_level(pin, 0);
     ets_delay_us(2000);              // 2 ms low (0.8-20 ms)
     gpio_set_level(pin, 1);
     ets_delay_us(40);                // 40 us high (20-200 us)
-    gpio_set_direction(pin, GPIO_MODE_INPUT);
 
     // Response
     if (dht_wait_level(pin, 0, 80) < 0) return ESP_ERR_TIMEOUT;
